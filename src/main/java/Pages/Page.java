@@ -9,12 +9,13 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.function.Function;
 
 public class Page {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
-    private static final int WAIT_TIMEOUT = 120;
+    private static final int WAIT_TIMEOUT = 10;
     private static final int POLLING_TIME = 1;
 
     public Page(WebDriver driver){
@@ -31,6 +32,24 @@ public class Page {
                 .pollingEvery(Duration.ofSeconds(POLLING_TIME))
                 .ignoring(NoSuchElementException.class);
         return wait.until(ExpectedConditions.visibilityOf(element));
+
+    }
+
+    private Wait<WebDriver> fluentWaint(){
+        return  new FluentWait<WebDriver>(this.driver)
+                .withTimeout(Duration.ofSeconds(WAIT_TIMEOUT))
+                .pollingEvery(Duration.ofSeconds(POLLING_TIME))
+                .ignoring(NoSuchElementException.class);
+    }
+
+    public Boolean isTextPresent(String txt){
+
+        Wait<WebDriver> wait = fluentWaint();
+        return wait.until(new Function<WebDriver, Boolean>() {
+            public Boolean apply(WebDriver driver) {
+                return driver.getPageSource().contains(txt);
+            }
+        });
 
     }
 }
