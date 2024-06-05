@@ -11,6 +11,12 @@ public class TopHeaderPage extends Page {
     @FindBy(xpath = "//div[@class='panel header']//a[normalize-space()='Create an Account']")
     private WebElement createAccounntLink;
 
+    @FindBy(xpath = "//a[@class='action showcart']")
+    private WebElement cartButton;
+
+    @FindBy(id = "top-cart-btn-checkout")
+    private WebElement checkoutButton;
+
 
     public TopHeaderPage(WebDriver driver) {
         super(driver);
@@ -20,5 +26,17 @@ public class TopHeaderPage extends Page {
     public WebElement getCreateAccountLink(){
         return this.fiendElement(createAccounntLink);
 
+    }
+
+    public WebElement getCartButton(){
+        return this.fiendElement(cartButton);
+    }
+
+    public WebElement getCheckoutButton(){
+        return this.fiendElement(checkoutButton);
+    }
+
+    public void clickCheckoutButton(){
+        this.getCheckoutButton().click();
     }
 }

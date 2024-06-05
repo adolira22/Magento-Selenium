@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -33,6 +34,11 @@ public class Page {
                 .ignoring(NoSuchElementException.class);
         return wait.until(ExpectedConditions.visibilityOf(element));
 
+    }
+
+    public WebElement fiendElement(By locator){
+        Wait<WebDriver> wait = fluentWaint();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     private Wait<WebDriver> fluentWaint(){

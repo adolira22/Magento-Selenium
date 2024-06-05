@@ -29,7 +29,7 @@ public class TestCase {
 
     @AfterMethod
     public void afterMethod(){
-        driver.close();
+        //driver.close();
     }
 
     @AfterClass

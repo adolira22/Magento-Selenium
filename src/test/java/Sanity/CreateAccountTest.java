@@ -1,5 +1,6 @@
 package Sanity;
 
+import Data.DataProviderCustomer;
 import Pages.Account.CreateAccountPage;
 import Pages.Global.TopHeaderPage;
 import TestCaseImplements.TestCase;
@@ -49,6 +50,24 @@ public class CreateAccountTest extends TestCase {
         softAssert.assertAll();
 
 
+
+    }
+
+    @Test(dataProvider = "dataCustomer", dataProviderClass = DataProviderCustomer.class)
+    public void createAccountDataProvider(String firstName, String lastName, String email, String password, String confirmPassword){
+
+        TopHeaderPage topHeaderPage = new TopHeaderPage(driver);
+        CreateAccountPage createAccount = new CreateAccountPage(driver);
+
+
+        topHeaderPage.getCreateAccountLink().click();
+        createAccount.getFirstNameInput().sendKeys(firstName);
+        createAccount.setLastNameInput(lastName);
+        createAccount.getEmailInput().sendKeys(email);
+        createAccount.getPasswordInput().sendKeys(password);
+        createAccount.getConfirmPasswordInput().sendKeys(confirmPassword);
+        createAccount.getCreateAccountButton().click();
+        Assert.assertTrue(createAccount.isTextPresent("Thank you for registering with Main Website Store."));
 
     }
 
