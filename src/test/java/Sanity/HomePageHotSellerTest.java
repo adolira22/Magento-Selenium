@@ -1,6 +1,7 @@
 package Sanity;
 
 import Pages.Account.CheckoutPage;
+import Pages.Account.ReviewPaymentPage;
 import Pages.Global.ProductPage;
 import Pages.Global.TopHeaderPage;
 import Pages.Home.HomePage;
@@ -20,6 +21,7 @@ public class HomePageHotSellerTest extends TestCase {
         ProductPage product = new ProductPage(driver);
         TopHeaderPage topheader = new TopHeaderPage(driver);
         CheckoutPage checkout = new CheckoutPage(driver);
+        ReviewPaymentPage reviewPayment = new ReviewPaymentPage(driver);
 
         Products item = home.getProductByName("Breathe-Easy Tank");
         actions.moveToElement(item.getProductWebElement()).click().perform();
@@ -37,6 +39,16 @@ public class HomePageHotSellerTest extends TestCase {
         checkout.getStreetInput().sendKeys("Calle 2");
         checkout.selectDropdown("Florida");
         checkout.getStateDropdown().submit();
+        checkout.getZipCodeInput().sendKeys("33101");
+        checkout.setCountryDropdown("El Salvador").click();
+        checkout.getPhoneInput().sendKeys("77777777");
+        checkout.getShippingRadio().click();
+        checkout.getNextButton().click();
+        reviewPayment.getPlaceOrderButton().click();
+        assertTrue(reviewPayment.isTextPresent("Thank you for your purchase!"));
+
+
+
 
 
 

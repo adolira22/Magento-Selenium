@@ -30,6 +30,21 @@ public class CheckoutPage extends Page {
     @FindBy(name = "region_id")
     private WebElement stateDropdown;
 
+    @FindBy(name = "postcode")
+    private WebElement zipCodeInput;
+
+    @FindBy(name = "region_id")
+    private WebElement countryDropdown;
+
+    @FindBy(name = "telephone")
+    private WebElement phoneInput;
+
+    @FindBy(name = "ko_unique_1")
+    private WebElement shippingRadio;
+
+    @FindBy(xpath = "//span[normalize-space()='Next']")
+    private WebElement nextButton;
+
 
     public CheckoutPage(WebDriver driver) {
         super(driver);
@@ -67,5 +82,31 @@ public class CheckoutPage extends Page {
     public void selectDropdown(String state){
         this.getStateDropdown().click();
         this.fiendElement(this.getStateDropdown().findElement(By.xpath("//option[normalize-space() = '"+state+"']"))).click();
+    }
+
+    public WebElement getZipCodeInput(){
+        return this.fiendElement(zipCodeInput);
+    }
+
+    public WebElement getCountryDropdown(){
+        return this.fiendElement(countryDropdown);
+    }
+
+    public WebElement setCountryDropdown(String country){
+        this.getCountryDropdown().click();
+        return this.fiendElement(this.getCountryDropdown().findElement(By.xpath("//option[normalize-space() = '"+country+"']")));
+    }
+
+    public WebElement getPhoneInput(){
+        return this.fiendElement(phoneInput);
+    }
+
+
+    public WebElement getShippingRadio(){
+        return this.fiendElement(shippingRadio);
+    }
+
+    public WebElement getNextButton(){
+        return this.fiendElement(nextButton);
     }
 }

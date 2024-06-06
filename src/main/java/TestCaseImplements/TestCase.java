@@ -1,12 +1,18 @@
 package TestCaseImplements;
 
+import Util.CustomException;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import java.io.File;
 import java.util.Random;
 
 public class TestCase {
@@ -28,7 +34,10 @@ public class TestCase {
     }
 
     @AfterMethod
-    public void afterMethod(){
+    public void afterMethod(ITestResult result){
+        if (result.getStatus() == ITestResult.FAILURE){
+            CustomException.takeScreenshot(driver);
+        }
         //driver.close();
     }
 
@@ -42,5 +51,30 @@ public class TestCase {
         Random rand = new Random();
         return "pedro" + rand.nextInt(1000) + "@yopmail.com";
     }
+
+
+    public void takeScreenshot(WebDriver driver){
+        if (driver instanceof TakesScreenshot){
+
+            File screenshot = ((TakesScreenshot) driver).getScreenshotAs((OutputType.FILE));
+            new File("./target/screenshots").mkdirs();
+            try {
+                FileUtils.copyToDirectory(screenshot, new File("./target/screenshots"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
+    public void assertTrue(boolean condition){
+        if (!condition){
+            throw new CustomException(this.getClass().getName(), "Test failed", driver);
+        }
+    }
+
+
 
 }

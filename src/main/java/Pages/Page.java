@@ -37,25 +37,28 @@ public class Page {
     }
 
     public WebElement fiendElement(By locator){
-        Wait<WebDriver> wait = fluentWaint();
+        Wait<WebDriver> wait = fluentWait();
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    private Wait<WebDriver> fluentWaint(){
+    private Wait<WebDriver> fluentWait(){
         return  new FluentWait<WebDriver>(this.driver)
                 .withTimeout(Duration.ofSeconds(WAIT_TIMEOUT))
                 .pollingEvery(Duration.ofSeconds(POLLING_TIME))
                 .ignoring(NoSuchElementException.class);
     }
 
-    public Boolean isTextPresent(String txt){
-
-        Wait<WebDriver> wait = fluentWaint();
-        return wait.until(new Function<WebDriver, Boolean>() {
-            public Boolean apply(WebDriver driver) {
-                return driver.getPageSource().contains(txt);
-            }
-        });
+    public Boolean isTextPresent(final String txt){
+        Wait<WebDriver> wait = fluentWait();
+        try {
+            return wait.until(new Function<WebDriver, Boolean>(){
+                public Boolean apply(WebDriver driver){
+                    return driver.getPageSource().contains(txt);
+                }
+            });
+        } catch (Exception e){
+            return false;
+        }
 
     }
 }
