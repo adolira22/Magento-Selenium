@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.function.Function;
 
-public class Page {
+public class
+Page {
 
     protected WebDriver driver;
     protected WebDriverWait wait;
@@ -41,6 +43,13 @@ public class Page {
                 .pollingEvery(Duration.ofSeconds(POLLING_TIME))
                 .ignoring(NoSuchElementException.class);
     }
+
+    public WebElement findElement(By locator){
+
+        Wait<WebDriver> wait = fluentWaint();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
 
     public Boolean isTextPresent(String txt){
 

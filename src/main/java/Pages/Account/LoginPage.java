@@ -1,6 +1,7 @@
 package Pages.Global;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -55,9 +56,14 @@ public class LoginPage {
 
         WebElement errorMessage = browser.findElement(By.id("pass-error"));
 
+
         Assert.assertEquals("This is a required field.",errorMessage.getText());
 
 
     }
+
+
+
+
 
 }
