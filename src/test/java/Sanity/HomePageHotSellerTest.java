@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 
 public class HomePageHotSellerTest extends TestCase {
 
-    @Test
+    @Test(groups = {"customerTest"})
     public void test(){
 
         Actions actions = new Actions(driver);

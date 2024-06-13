@@ -8,13 +8,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 
-public class TestCase {
+public class TestCaseRemoteDriver {
 
     protected static WebDriver driver;
 
@@ -25,30 +28,22 @@ public class TestCase {
 
     }
 
-    @BeforeMethod(alwaysRun = false, enabled = false)
-    public void beforeMethod(){
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get("https://magento.softwaretestingboard.com/");
-    }
 
     @BeforeMethod(alwaysRun = true, enabled = true)
-    @Parameters("browser")
-    public void beforeMethod(String browser){
+    public void beforeMethod() throws MalformedURLException {
 
-        if (browser.equalsIgnoreCase("chrome")){
-            driver = new ChromeDriver();
-        }
+        URL remoteURL = new URL("http://192.168.5.150:4444/wd/hub");
+        ChromeOptions options = new ChromeOptions();
+        options.setCapability("browserName", "chrome");
+        options.addArguments("--headless=new");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
 
-        if (browser.equalsIgnoreCase("firefox")){
-            driver = new FirefoxDriver();
-        }
-
+        driver = new RemoteWebDriver(remoteURL, options);
         driver.manage().window().maximize();
         driver.get("https://magento.softwaretestingboard.com/");
     }
+
 
     @AfterMethod
     public void afterMethod(ITestResult result){

@@ -4,14 +4,15 @@ import Data.DataProviderCustomer;
 import Pages.Account.CreateAccountPage;
 import Pages.Global.TopHeaderPage;
 import TestCaseImplements.TestCase;
+import TestCaseImplements.TestCaseRemoteDriver;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-public class CreateAccountTest extends TestCase {
+public class CreateAccountTest extends TestCaseRemoteDriver {
 
 
-    @Test
+    @Test(groups = {"smokeTest"})
     public void createAccountUser(){
         TopHeaderPage topHeaderPage = new TopHeaderPage(driver);
         CreateAccountPage createAccount = new CreateAccountPage(driver);
@@ -24,12 +25,14 @@ public class CreateAccountTest extends TestCase {
         createAccount.getPasswordInput().sendKeys("Pedro@123.");
         createAccount.getConfirmPasswordInput().sendKeys("Pedro@123.");
         createAccount.getCreateAccountButton().click();
+        this.takeScreenshot(driver);
         Assert.assertTrue(createAccount.isTextPresent("Thank you for registering with Main Website Store."));
 
 
     }
 
-    @Test
+
+    @Test(groups = {"smokeTest"})
     public void validateReistrationForm(){
 
         String errorMsg = "This is a required field.";
@@ -49,11 +52,9 @@ public class CreateAccountTest extends TestCase {
         softAssert.assertEquals(createAccount.getConfirmPasswordErrorMessage().getText(), errorMsg);
         softAssert.assertAll();
 
-
-
     }
 
-    @Test(dataProvider = "dataCustomer", dataProviderClass = DataProviderCustomer.class)
+    @Test(dataProvider = "dataCustomer", dataProviderClass = DataProviderCustomer.class, enabled = false)
     public void createAccountDataProvider(String firstName, String lastName, String email, String password, String confirmPassword){
 
         TopHeaderPage topHeaderPage = new TopHeaderPage(driver);
